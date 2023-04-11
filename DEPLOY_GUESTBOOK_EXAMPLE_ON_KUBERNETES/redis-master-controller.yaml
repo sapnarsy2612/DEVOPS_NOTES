@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: redis-master
+  labels:
+    name: redis-master
+spec:
+  replicas: 1
+  selector:
+    name: redis-master
+  template:
+    metadata:
+      labels:
+        name: redis-master
+    spec:
+      containers:
+      - name: master
+        image: redis:3.0.7-alpine
+        ports:
+        - containerPort: 6379
+
+This is a YAML file that defines a ReplicationController for a Redis master pod in Kubernetes. Here's what each part of the file means:
+
+apiVersion: This field specifies the Kubernetes API version being used for the object. In this case, it's the v1 version of the API.
+kind: This field specifies the type of object being created. In this case, it's a ReplicationController object.
+metadata: This section contains metadata about the ReplicationController, including its name and labels.
+name: This field specifies the name of the ReplicationController object.
+labels: This section contains a set of key-value pairs that can be used to label and organize the ReplicationController object.
+spec: This section contains the specification for the ReplicationController.
+replicas: This field specifies the desired number of replicas for the Redis master pod. In this case, it's set to 1, which means there should be one replica of the Redis master pod running at all times.
+selector: This field specifies the label selector used to identify the pods managed by the ReplicationController. In this case, the selector is set to name: redis-master, which means that the ReplicationController will manage pods with the label name: redis-master.
+template: This section contains the template for the Redis master pod that will be managed by the ReplicationController.
+metadata: This section contains metadata about the pod, including its labels.
+labels: This section contains a set of key-value pairs that can be used to label and organize the pod.
+spec: This section contains the specification for the pod.
+containers: This field specifies the containers that will be run in the pod. In this case, there is only one container named master that runs the Redis image version 3.0.7-alpine and exposes port 6379.
+Overall, this YAML file defines a ReplicationController that ensures there is always one Redis master pod running, and specifies the container image and port to use for the pod.

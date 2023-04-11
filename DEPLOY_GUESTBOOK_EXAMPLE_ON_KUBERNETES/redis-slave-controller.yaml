@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: redis-slave
+  labels:
+    name: redis-slave
+spec:
+  replicas: 2
+  selector:
+    name: redis-slave
+  template:
+    metadata:
+      labels:
+        name: redis-slave
+    spec:
+      containers:
+      - name: worker
+        image: gcr.io/google_samples/gb-redisslave:v1
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+          # If your cluster config does not include a dns service, then to
+          # instead access an environment variable to find the master
+          # service's host, comment out the 'value: dns' line above, and
+          # uncomment the line below.
+          # value: env
+        ports:
+        - containerPort: 6379
+
+This is a YAML file that defines a Kubernetes ReplicationController for a Redis slave pod. Here's what each part of the file means:
+
+apiVersion: This field specifies the Kubernetes API version being used for the object. In this case, it's the v1 version of the API.
+kind: This field specifies the type of object being created. In this case, it's a ReplicationController object.
+metadata: This section contains metadata about the ReplicationController, including its name and labels.
+name: This field specifies the name of the ReplicationController object.
+labels: This section contains a set of key-value pairs that can be used to label and organize the ReplicationController object.
+spec: This section contains the specification for the ReplicationController.
+replicas: This field specifies the desired number of replicas for the Redis slave pods. In this case, it's set to 2.
+selector: This field specifies the label selector used to identify the pods managed by the ReplicationController. In this case, the selector is set to name: redis-slave, which means that the ReplicationController will manage pods with the label name: redis-slave.
+template: This section contains the template used to create new pods managed by the ReplicationController.
+metadata: This field specifies metadata for the pod template.
+labels: This field specifies the labels for the pod template.
+spec: This field specifies the specification for the pod template.
+containers: This field specifies the containers running in the pod.
+name: This field specifies the name of the container.
+image: This field specifies the Docker image used for the container. In this case, it's set to gcr.io/google_samples/gb-redisslave:v1.
+env: This field specifies environment variables for the container.
+GET_HOSTS_FROM: This environment variable is used to specify how the container should discover the Redis master pod. In this case, it's set to dns, which means that the container will use DNS discovery to find the Redis master pod.
+ports: This field specifies the ports that the container will listen on.
+Overall, this YAML file defines a Kubernetes ReplicationController that manages two Redis slave pods, and creates new pods based on a pod template that runs a container with the gcr.io/google_samples/gb-redisslave:v1 Docker image. The container is configured to discover the Redis master pod using DNS discovery, and listen on port 6379.

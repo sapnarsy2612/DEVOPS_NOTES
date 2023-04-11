@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-master
+  labels:
+    name: redis-master
+spec:
+  ports:
+    # the port that this service should serve on
+  - port: 6379
+    targetPort: 6379
+  selector:
+    name: redis-master
+
+
+This is a YAML file that defines a Kubernetes Service for a Redis master pod. Here's what each part of the file means:
+
+apiVersion: This field specifies the Kubernetes API version being used for the object. In this case, it's the v1 version of the API.
+kind: This field specifies the type of object being created. In this case, it's a Service object.
+metadata: This section contains metadata about the Service, including its name and labels.
+name: This field specifies the name of the Service object.
+labels: This section contains a set of key-value pairs that can be used to label and organize the Service object.
+spec: This section contains the specification for the Service.
+ports: This field specifies the ports that the Service will listen on and forward traffic to.
+port: This field specifies the port number that the Service should listen on. In this case, it's set to 6379, which is the default port used by Redis.
+targetPort: This field specifies the port number that the Service should forward traffic to. In this case, it's set to 6379, which is the port that the Redis master pod is listening on.
+selector: This field specifies the label selector used to identify the pods that the Service should forward traffic to. In this case, the selector is set to name: redis-master, which means that the Service will forward traffic to pods with the label name: redis-master.
+Overall, this YAML file defines a Kubernetes Service that exposes the Redis master pod on port 6379, and forwards traffic to the Redis master pod running on the same node, identified by the label name: redis-master. Other pods in the Kubernetes cluster can now use the DNS name redis-master to connect to the Redis master pod.
