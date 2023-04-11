@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  labels:
+    name: frontend
+spec:
+  # if your cluster supports it, uncomment the following to automatically create
+  # an external load-balanced IP for the frontend service.
+  # type: LoadBalancer
+  type: NodePort
+  ports:
+    # the port that this service should serve on
+    - port: 80
+      nodePort: 30080
+  selector:
+    name: frontend
+
+This is a Kubernetes manifest file for creating a service named "frontend" of type "NodePort" that exposes port 80 of the frontend replication controller to the nodes in the cluster. The service will have a randomly assigned port in the range of 30000-32767 on each node, which can be accessed externally.
+
+Here's a breakdown of the different fields in the manifest:
+
+apiVersion: The version of the Kubernetes API to use.
+kind: The type of object to create, which in this case is a service.
+metadata: Additional metadata about the service, including its name and labels.
+spec: The specification for the service, which includes the following:
+type: The type of the service, which in this case is "NodePort". This means that the service will be accessible on a port on each node in the cluster.
+ports: The ports that the service should expose. In this case, there is only one port, port 80.
+selector: The labels that the service should use to select the pods it should route traffic to. In this case, it selects the pods labeled "name: frontend".
